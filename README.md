@@ -1,1 +1,3 @@
-# page_object_test
+# Stepik-auto-tests-project
+
+In this project
