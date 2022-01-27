@@ -1,6 +1,5 @@
 import math
-
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, NoAlertPresentException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
@@ -9,7 +8,7 @@ from .locators import BasePageLocators
 
 class BasePage:
     def go_to_login_page(self):
-        login_link = self.browser.find_element(*BasePageLocators.LOGIN_LINK_INVALID)
+        login_link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
         login_link.click()
 
     def should_be_login_link(self):
@@ -36,13 +35,13 @@ class BasePage:
         answer = str(math.log(abs((12 * math.sin(float(x))))))
         alert.send_keys(answer)
         alert.accept()
-        # try:
-        #     alert = self.browser.switch_to.alert
-        #     alert_text = alert.text
-        #     print(f"Your code: {alert_text}")
-        #     alert.accept()
-        # except NoAlertPresentException:
-        #     print("No second alert presented")
+        try:
+            alert = self.browser.switch_to.alert
+            alert_text = alert.text
+            print(f"Your code: {alert_text}")
+            alert.accept()
+        except NoAlertPresentException:
+            print("No second alert presented")
 
     def is_not_element_present(self, how, what, timeout=4):
         try:
@@ -60,3 +59,7 @@ class BasePage:
             return False
 
         return True
+
+    def go_to_basket(self):
+        basket_link = self.browser.find_element(*BasePageLocators.BASKET_BUTTON)
+        basket_link.click()
